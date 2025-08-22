@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket 테스트</title>
+</head>
+<body>
+<h2>WebSocket 연결 테스트</h2>
+
+<script>
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1MTY5NzQxOCwiZXhwIjoxNzUxNzAxMDE4fQ._Ou8ylL_U9kzxBb4c_PhCoYr7iPfHW_l3Uf3eHgr3cU";
+    const socket = new WebSocket("ws://localhost:8080/ws/chat?token=" + token);
+
+
+    socket.onopen = () => {
+  console.log("연결됨");
+
+  socket.send(JSON.stringify({
+    sender: "testuser",
+    message: "Hello!",
+    roomId: "room1"
+  }));
+};
+
+
+    socket.onmessage = (event) => {
+      console.log("받은 메시지:", event.data);
+    };
+
+    socket.onerror = (e) => {
+      console.error("에러 발생", e);
+    };
+
+    socket.onclose = () => {
+      console.warn("연결 종료");
+    };
+</script>
+</body>
+</html>
